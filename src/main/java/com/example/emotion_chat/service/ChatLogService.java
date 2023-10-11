@@ -4,7 +4,11 @@ import com.example.emotion_chat.entity.ChatLog;
 import com.example.emotion_chat.repository.ChatLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChatLogService {
@@ -12,21 +16,16 @@ public class ChatLogService {
   @Autowired
   private ChatLogRepository chatLogRepository;
 
-  public List<ChatLog> getAllChatLogs() {
-    return chatLogRepository.findAll();
+  public Map<String, String> getEmotionsByUserId(Long userId) {
+    List<Object[]> results = chatLogRepository.findEmotionsByUserId(userId);
+    Map<String, String> emotionsMap = new HashMap<>();
+
+    for(Object[] result : results) {
+      LocalDate date = (LocalDate) result[0];
+      ChatLog.Emotion emotionEnum = (ChatLog.Emotion) result[1];
+      emotionsMap.put(date.toString(), emotionEnum.name());
+    }
+
+    return emotionsMap;
   }
-
-//  public List<ChatLogDTO> getChatLogsByDate(Long userId, LocalDate date) {
-//    User user = new User(userId);  // Assuming the user exists
-//    List<ChatLog> chatLogs = chatLogRepository.findByUserAndDateEntered(user, date);
-//
-//    return chatLogs.stream()
-//            .map(this::convertToDTO)
-//            .collect(Collectors.toList());
-//  }
-
-  public ChatLog saveChatLog(ChatLog chatLog) {
-    return chatLogRepository.save(chatLog);
-  }
-
 }

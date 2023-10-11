@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "ChatLog")
 public class ChatLog {
 
   @Id
@@ -18,7 +19,7 @@ public class ChatLog {
   private Long chatlogId;
 
   @ManyToOne
-  @JoinColumn(name = "userId")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @Enumerated(EnumType.STRING)

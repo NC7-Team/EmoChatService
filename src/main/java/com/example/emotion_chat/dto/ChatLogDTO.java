@@ -17,10 +17,4 @@ public class ChatLogDTO {
   private ChatLog.Emotion emotion;
   private LocalDate dateEntered;
 
-//  public ChatLogDTO(Long chatlogId, Long userId, ChatLog.Emotion emotion, LocalDate dateEntered) {
-//    this.chatlogId = chatlogId;
-//    this.userId = userId;
-//    this.emotion = emotion;
-//    this.dateEntered = dateEntered;
-//  }
 }
