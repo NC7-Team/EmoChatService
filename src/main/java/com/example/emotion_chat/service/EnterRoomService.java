@@ -1,7 +1,7 @@
-package kr.megaptera.chatting.services;
+package com.example.emotion_chat.service;
 
-import kr.megaptera.chatting.dto.MessageResponseDto;
-import kr.megaptera.chatting.utils.MessageIdGenerator;
+import com.example.emotion_chat.dto.MessageResponseDto;
+import com.example.emotion_chat.util.MessageIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
-package kr.megaptera.chatting.controllers;
+package com.example.emotion_chat.controller;
 
-import kr.megaptera.chatting.dto.MessageRequestDto;
-import kr.megaptera.chatting.services.ConvertAndSendMessageService;
-import kr.megaptera.chatting.services.EnterRoomService;
-import kr.megaptera.chatting.services.QuitRoomService;
+import com.example.emotion_chat.dto.MessageRequestDto;
+import com.example.emotion_chat.service.ConvertAndSendMessageService;
+import com.example.emotion_chat.service.EnterRoomService;
+import com.example.emotion_chat.service.QuitRoomService;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;

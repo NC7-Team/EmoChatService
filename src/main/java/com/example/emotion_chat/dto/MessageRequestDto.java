@@ -1,4 +1,4 @@
-package kr.megaptera.chatting.dto;
+package com.example.emotion_chat.dto;
 
 
 import lombok.AllArgsConstructor;
