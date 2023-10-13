@@ -1,4 +1,4 @@
-FROM openjdk:17-jre-slim AS backend_build
+FROM openjdk:17 AS backend_build
 
 # Set a working directory
 WORKDIR /app
