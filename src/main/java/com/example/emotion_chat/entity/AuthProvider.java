@@ -4,5 +4,9 @@ public enum  AuthProvider {
     local,
     facebook,
     google,
-    github
+    github,
+
+    kakao,
+
+    naver
 }
