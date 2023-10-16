@@ -10,7 +10,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
@@ -21,26 +20,21 @@ public class MessageController {
 
     @MessageMapping("/chat/enter")
     public void enter(MessageRequestDto messageRequestDto) {
-
         enterRoomService.enterRoom(
             messageRequestDto.getType(),
             messageRequestDto.getRoomId(),
             messageRequestDto.getUserId()
         );
-
     }
 
     @MessageMapping("/chat/quit")
     public void quit(MessageRequestDto messageRequestDto) {
-
         quitRoomService.quitRoom(
             messageRequestDto.getType(),
             messageRequestDto.getRoomId(),
             messageRequestDto.getUserId()
         );
-
     }
-
 
     @MessageMapping("/chat/message")
     public void message(MessageRequestDto messageRequestDto) {
@@ -52,11 +46,8 @@ public class MessageController {
         );
     }
 
-
     @MessageExceptionHandler
     public String exception() {
         return "오류가 발생했습니다.";
     }
-
-
 }

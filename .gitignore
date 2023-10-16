@@ -38,6 +38,7 @@ out/
 
 
 *.properties
+*.yml
 !gradle/wrapper/gradle-wrapper.properties
 
 
