@@ -1,4 +1,4 @@
-package kr.megaptera.chatting.utils;
+package com.example.emotion_chat.util;
 
 public class MessageIdGenerator {
     private static Long id = 0L;
