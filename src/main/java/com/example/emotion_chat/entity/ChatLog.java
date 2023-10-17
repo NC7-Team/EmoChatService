@@ -27,8 +27,21 @@ public class ChatLog {
 
   private LocalDate dateEntered;
 
-  public enum Emotion {
-    HAPPY, SAD, ANGRY, NEUTRAL;
+  public Emotion getEmotion() {
+    return emotion;
   }
 
+  public enum Emotion {
+    HAPPY, SAD, ANGRY, NEUTRAL, ALL;
+  }
+
+  @Override
+  public String toString() {
+    return "ChatLog{" +
+            "chatlogId=" + chatlogId +
+            ", user=" + user +
+            ", emotion=" + emotion +
+            ", dateEntered=" + dateEntered +
+            '}';
+  }
 }
