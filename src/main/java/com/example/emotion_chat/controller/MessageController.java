@@ -7,8 +7,9 @@ import com.example.emotion_chat.service.QuitRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RestController;
-
 
 
 @RestController
@@ -21,26 +22,21 @@ public class MessageController {
 
     @MessageMapping("/chat/enter")
     public void enter(MessageRequestDto messageRequestDto) {
-
         enterRoomService.enterRoom(
             messageRequestDto.getType(),
             messageRequestDto.getRoomId(),
             messageRequestDto.getUserId()
         );
-
     }
 
     @MessageMapping("/chat/quit")
     public void quit(MessageRequestDto messageRequestDto) {
-
         quitRoomService.quitRoom(
             messageRequestDto.getType(),
             messageRequestDto.getRoomId(),
             messageRequestDto.getUserId()
         );
-
     }
-
 
     @MessageMapping("/chat/message")
     public void message(MessageRequestDto messageRequestDto) {
@@ -52,11 +48,11 @@ public class MessageController {
         );
     }
 
-
-    @MessageExceptionHandler
-    public String exception() {
-        return "오류가 발생했습니다.";
-    }
-
-
+@MessageExceptionHandler(Exception.class)
+@SendToUser("/queue/errors")
+public String handleException(Exception exception, SimpMessageHeaderAccessor headerAccessor) {
+    // 예외 처리 로직을 여기에 추가
+    System.out.println(exception.getMessage());
+    return "An exception occurred: " + exception.getMessage();
+}
 }
