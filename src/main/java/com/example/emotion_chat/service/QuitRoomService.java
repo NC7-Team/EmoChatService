@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 public class QuitRoomService {
 
     private final SimpMessagingTemplate template;
+    private final ChatRoomService chatRoomService;
+
 
     public void quitRoom(String type,
                          Long roomId,
                          Long userId) {
+
+        chatRoomService.removeUserToChatRoom(roomId, userId);
+
         template.convertAndSend(
             "/subscription/chat/room/" + roomId,
             new MessageResponseDto(
