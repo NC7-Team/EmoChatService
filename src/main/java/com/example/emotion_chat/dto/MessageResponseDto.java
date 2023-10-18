@@ -2,6 +2,7 @@ package com.example.emotion_chat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter

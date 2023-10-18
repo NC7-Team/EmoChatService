@@ -27,6 +27,7 @@ public class MessageController {
             messageRequestDto.getRoomId(),
             messageRequestDto.getUserId()
         );
+
     }
 
     @MessageMapping("/chat/quit")
