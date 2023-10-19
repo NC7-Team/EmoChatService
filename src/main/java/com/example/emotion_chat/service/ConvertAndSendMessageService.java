@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 
 @Service
@@ -57,7 +55,6 @@ public class ConvertAndSendMessageService {
     message = filteringMessage(message);
 
     // Include user information in the message
-    String messageValue = String.format("사용자 %d: %s", userId, message);
         String[] first = new String[1];
         first[0] = "화끈한";
 
