@@ -6,22 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 @Service
-
 @RequiredArgsConstructor
 public class EnterRoomService {
     private final SimpMessagingTemplate template;
-    // 사용자 목록을 저장하는 Set
-    private final Map<Long, Set<Long>> connectedUsersByRoom = new HashMap<>();
+    private final ChatRoomService chatRoomService;
 
     public void enterRoom(String type,
                           Long roomId,
                           Long userId) {
+
+        chatRoomService.addUserToChatRoom(roomId, userId);
 
         template.convertAndSend(
             "/subscription/chat/room/" + roomId,
@@ -33,9 +29,6 @@ public class EnterRoomService {
             )
         );
 
-        connectedUsersByRoom
-                .computeIfAbsent(roomId, k -> new HashSet<>())
-                .add(userId);
     }
 
 }
