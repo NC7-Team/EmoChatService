@@ -11,10 +11,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+import java.util.List;
+
+
 @Service
 @RequiredArgsConstructor
 public class ConvertAndSendMessageService {
-  private final SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
+    private final List<String> names;
+
 
   public String filteringMessage(String message) {
     try {
@@ -50,15 +55,23 @@ public class ConvertAndSendMessageService {
     message = filteringMessage(message);
 
     // Include user information in the message
-    String messageValue = String.format("사용자 %d: %s", userId, message);
+        String[] first = new String[1];
+        first[0] = "화끈한";
 
-    template.convertAndSend(
-            "/subscription/chat/room/" + roomId,
-            new MessageResponseDto(
-                    MessageIdGenerator.generateId(),
-                    messageType,
-                    messageValue
-            )
-    );
-  }
+        String randomName = RandomNameGenerator.randomName(userId.intValue());
+
+        // Include user information in the message
+        String messageValue = String.format(first[0]+ randomName + "%s: %s", userId, message);
+
+        template.convertAndSend(
+                "/subscription/chat/room/" + roomId,
+                new MessageResponseDto(
+                        MessageIdGenerator.generateId(),
+                        messageType,
+                        messageValue
+                )
+        );
+    }
+
 }
+
