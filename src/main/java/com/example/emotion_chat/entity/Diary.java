@@ -16,17 +16,11 @@ public class Diary {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long diaryId;
+  private Long chatlogId;
 
-  @ManyToOne
-  @JoinColumn(name = "id")
-  private User user;
-
-  @Column(nullable = false)
-  private LocalDate createdDate;
-
-  @Column(nullable = false)
-  private String emotion;
+  @OneToOne
+  @JoinColumn(name = "chatlog_id")
+  private ChatLog chatLog;
 
   @Lob
   private String content;

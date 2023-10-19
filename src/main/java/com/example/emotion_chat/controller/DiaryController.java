@@ -3,9 +3,9 @@ package com.example.emotion_chat.controller;
 import com.example.emotion_chat.entity.Diary;
 import com.example.emotion_chat.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/diary")
@@ -13,28 +13,39 @@ public class DiaryController {
   @Autowired
   private DiaryService diaryService;
 
-  @PostMapping
-  public Diary createDiary(@RequestBody Diary diary) {
-    return diaryService.createDiary(diary);
+  @PostMapping("/new")
+  public ResponseEntity<Diary> createDiary(@RequestBody Diary diary) {
+    Diary createdDiary = diaryService.createDiary(diary);
+    return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
   }
 
-  @GetMapping("/user/{userId}")
-  public List<Diary> getUserDiaries(@PathVariable Long userId) {
-    return diaryService.getUserDiaries(userId);
+  @GetMapping("/search/{diaryId}")
+  public ResponseEntity<Diary> getDiary(@PathVariable Long diaryId) {
+    Diary diary = diaryService.getDiaryById(diaryId);
+    if (diary != null) {
+      return new ResponseEntity<>(diary, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
-  @GetMapping("/{id}")
-  public Diary getDiaryById(@PathVariable Long id) {
-    return diaryService.getDiaryById(id);
+  @PutMapping("/update/{diaryId}")
+  public ResponseEntity<Diary> updateDiary(@PathVariable Long diaryId, @RequestBody Diary diary) {
+    Diary updatedDiary = diaryService.updateDiary(diaryId, diary);
+    if (updatedDiary != null) {
+      return new ResponseEntity<>(updatedDiary, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
-  @PutMapping("/{id}")
-  public Diary updateDiary(@PathVariable Long id, @RequestBody Diary updatedDiary) {
-    return diaryService.updateDiary(id, updatedDiary);
-  }
-
-  @DeleteMapping("/{id}")
-  public void deleteDiary(@PathVariable Long id) {
-    diaryService.deleteDiary(id);
+  @DeleteMapping("/delete/{diaryId}")
+  public ResponseEntity<Void> deleteDiary(@PathVariable Long diaryId) {
+    boolean deleted = diaryService.deleteDiary(diaryId);
+    if (deleted) {
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 }
