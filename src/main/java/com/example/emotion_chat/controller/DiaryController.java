@@ -13,13 +13,7 @@ public class DiaryController {
   @Autowired
   private DiaryService diaryService;
 
-  @PostMapping("/new")
-  public ResponseEntity<Diary> createDiary(@RequestBody Diary diary) {
-    Diary createdDiary = diaryService.createDiary(diary);
-    return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
-  }
-
-  @GetMapping("/search/{diaryId}")
+  @GetMapping("/{diaryId}")
   public ResponseEntity<Diary> getDiary(@PathVariable Long diaryId) {
     Diary diary = diaryService.getDiaryById(diaryId);
     if (diary != null) {
@@ -29,7 +23,13 @@ public class DiaryController {
     }
   }
 
-  @PutMapping("/update/{diaryId}")
+  @PostMapping("/create")
+  public ResponseEntity<Diary> createDiary(@RequestBody Diary diary) {
+    Diary createdDiary = diaryService.createDiary(diary);
+    return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
+  }
+
+  @PutMapping("/{diaryId}")
   public ResponseEntity<Diary> updateDiary(@PathVariable Long diaryId, @RequestBody Diary diary) {
     Diary updatedDiary = diaryService.updateDiary(diaryId, diary);
     if (updatedDiary != null) {
@@ -39,7 +39,7 @@ public class DiaryController {
     }
   }
 
-  @DeleteMapping("/delete/{diaryId}")
+  @DeleteMapping("/{diaryId}")
   public ResponseEntity<Void> deleteDiary(@PathVariable Long diaryId) {
     boolean deleted = diaryService.deleteDiary(diaryId);
     if (deleted) {

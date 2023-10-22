@@ -10,12 +10,12 @@ public class DiaryService {
   @Autowired
   private DiaryRepository diaryRepository;
 
-  public Diary createDiary(Diary diary) {
-    return diaryRepository.save(diary);
-  }
-
   public Diary getDiaryById(Long diaryId) {
     return diaryRepository.findById(diaryId).orElse(null);
+  }
+
+  public Diary createDiary(Diary diary) {
+    return diaryRepository.save(diary);
   }
 
   public Diary updateDiary(Long diaryId, Diary updatedDiary) {
