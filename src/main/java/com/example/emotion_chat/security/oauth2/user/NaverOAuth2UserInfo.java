@@ -1,37 +1,26 @@
 package com.example.emotion_chat.security.oauth2.user;
 
-import com.example.emotion_chat.security.oauth2.user.OAuth2UserInfo;
-
 import java.util.Map;
 
 public class NaverOAuth2UserInfo extends OAuth2UserInfo {
-    private Map<String, Object> attributes; //OAuth2User.getAttributes();
-    private Map<String, Object> attributesResponse;
 
     public NaverOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
-        this.attributes = attributes;
-        this.attributes = (Map<String, Object>) attributes.get("response");
-        this.attributesResponse = (Map<String, Object>) attributes.get("response");
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
     }
 
     @Override
     public String getId() {
-        return attributesResponse.get("id").toString();
-    }
-
-    @Override
-    public String getEmail() {
-        return attributesResponse.get("email").toString();
+        return (String) attributes.get("sub");
     }
 
     @Override
     public String getName() {
-        return attributesResponse.get("name").toString();
+        return (String) attributes.get("name");
     }
+
+    @Override
+    public String getEmail() {
+        return (String) attributes.get("email");
+    }
+
 }
