@@ -108,7 +108,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.json",
                         "/**/*.js")
                         .permitAll()
-                    .antMatchers("/api/**","/auth/**", "/oauth2/**", "/login/**", "/mypage/**", "/chat/**", "/chatUsers/**", "/perchat", "/face/**", "/rooms/**")
+                    .antMatchers("/api/**","/auth/**", "/oauth2/**", "/login/**", "/mypage/**", "/chat/**", "/chatUsers/**",
+                            "/perchat", "/face/**", "/", "/user/me/**", "auth/login/**", "/quill/**", "oauth/**")
                         .permitAll()
                     .anyRequest()
                         .authenticated()
