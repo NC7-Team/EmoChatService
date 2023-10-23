@@ -27,7 +27,7 @@ public class FaceController {
 
   @PostMapping("/face")
   @ResponseBody
-  public String faceRecognition(@RequestParam("uploadFile") MultipartFile file, Model model) {
+  public String faceRecognition(@RequestParam("uploadFile") MultipartFile file, @RequestParam("id") long userId) {
     if (!file.isEmpty()) {
       try {
         ArrayList<FaceDTO> faceList = faceService.clovaFace(file);
@@ -59,10 +59,6 @@ public class FaceController {
             break;
         }
 
-        long userId = 1;
-
-
-
         chatLog.setUser(new User(userId));
         chatLog.setDateEntered(LocalDate.now());
 
@@ -70,7 +66,7 @@ public class FaceController {
           chatLogService.create(chatLog);
         }
 
-        return chatLog.getEmotion().name();
+        return "HAPPY";
 
       } catch (Exception e) {
         return "error";
