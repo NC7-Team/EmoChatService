@@ -24,9 +24,4 @@ public class ChatUserController {
         ChatRoomsResponseDto responseDto = new ChatRoomsResponseDto(chatRoomService.getChatRooms(), usersInChatRoom);
         return ResponseEntity.ok(responseDto);
     }
-//@GetMapping("/{roomId}")
-//public ResponseEntity<Set<Long>> getUsersInChatRoom(@PathVariable Long roomId) {
-//    Set<Long> usersInChatRoom = chatRoomService.getUsersInChatRoom(roomId);
-//    return ResponseEntity.ok(usersInChatRoom);
-//}
 }
