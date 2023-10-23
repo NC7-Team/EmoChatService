@@ -37,6 +37,8 @@ public class FaceController {
         }
 
         ChatLog chatLog = new ChatLog();
+        chatLog.setUser(new User(userId));
+        chatLog.setDateEntered(LocalDate.now());
 
         String emotion = faceList.get(0).getEmotion();
         switch (emotion) {
@@ -58,9 +60,6 @@ public class FaceController {
             chatLog.setEmotion(ChatLog.Emotion.NEUTRAL);
             break;
         }
-
-        chatLog.setUser(new User(userId));
-        chatLog.setDateEntered(LocalDate.now());
 
         if (chatLogService.getEmotionsByUserIdAndDate(userId, LocalDate.now()) == null) {
           chatLogService.create(chatLog);

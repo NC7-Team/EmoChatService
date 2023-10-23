@@ -15,16 +15,12 @@ public class Diary {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long chatlogId;
+  private Long diaryId;
 
   @OneToOne
-  @JoinColumn(name = "chatlog_id")
-  private ChatLog chatLog;
+  @JoinColumn(name = "chatlog_id", nullable = false)
+  private ChatLog chatlog;
 
   @Lob
   private String content;
-
-  public enum Emotion {
-    HAPPY, NEUTRAL, ANGRY, SAD;
-  }
 }
