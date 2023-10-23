@@ -59,10 +59,15 @@ public class DiaryController {
 
     System.out.println(chatLog.getChatlogId());
 
-    Diary diary = new Diary();
-    diary.setChatlog(chatLog);
-    diary.setContent(content);
+    Diary diary = diaryService.getDiaryByChatlog(chatLog.getChatlogId());
 
+    if (diary == null) {
+      diary = new Diary();
+      diary.setChatlog(chatLog);
+      diary.setContent(content);
+    } else {
+      diary.setContent(content);
+    }
     Diary createdDiary = diaryService.createDiary(diary);
     return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
   }
