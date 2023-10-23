@@ -1,28 +1,35 @@
 package com.example.emotion_chat.security.oauth2.user;
 
-import com.example.emotion_chat.security.oauth2.user.OAuth2UserInfo;
-
 import java.util.Map;
 
 public class NaverOAuth2UserInfo extends OAuth2UserInfo {
+    private Map<String, Object> attributes;
 
-    public NaverOAuth2UserInfo(Map<String, Object> attributes) { super(attributes); }
+    private Map<String, Object> attributesResponse;
+
+    public NaverOAuth2UserInfo(Map<String, Object> attributes) {
+        super(attributes);
+        this.attributes = attributes;
+        this.attributesResponse = (Map<String, Object>) attributes.get("response");
+    }
 
     @Override
-    public String getId() { return (String) attributes.get("id"); }
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 
     @Override
-    public String getName() { return (String) attributes.get("name"); }
+    public String getId() {
+        return attributes.get("id").toString();
+    }
 
-    // 추가: Naver OAuth2에서 이메일 주소를 가져오도록 설정
     @Override
     public String getEmail() {
-        if (attributes.containsKey("response")) {
-            Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-            if (response.containsKey("email")) {
-                return (String) response.get("email");
-            }
-        }
-        return null; // 이메일 주소가 없는 경우 null 반환
+        return attributesResponse.get("email").toString();
+    }
+
+    @Override
+    public String getName() {
+        return attributesResponse.get("name").toString();
     }
 }
