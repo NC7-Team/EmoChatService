@@ -17,7 +17,7 @@ public interface AdRecommendationRepository extends JpaRepository<AdRecommendati
   List<AdRecommendation> findAdsByEmotionOrderByRandom(ChatLog.Emotion emotion, Pageable pageable);
 
   // 모든 광고 중에서 무작위 순서로 광고 조회
-  @Query("SELECT a FROM AdRecommendation a ORDER BY RAND()")
+  @Query(value = "SELECT * FROM AdRecommendations ORDER BY RAND()", nativeQuery = true)
   List<AdRecommendation> findRandomAds(Pageable pageable);
 
 }

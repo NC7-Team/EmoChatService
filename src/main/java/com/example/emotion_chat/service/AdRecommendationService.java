@@ -4,12 +4,9 @@ import com.example.emotion_chat.entity.AdRecommendation;
 import com.example.emotion_chat.entity.ChatLog;
 import com.example.emotion_chat.repository.AdRecommendationRepository;
 import com.example.emotion_chat.repository.ChatLogRepository;
-import com.example.emotion_chat.repository.SpecialDatesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -24,9 +21,6 @@ public class AdRecommendationService {
 
   @Autowired
   private AdRecommendationRepository adRecommendationRepository;
-
-  @Autowired
-  private SpecialDatesRepository specialDatesRepository;
 
 
   public List<AdRecommendation> recommendAd(Long userId) {
@@ -59,12 +53,6 @@ public class AdRecommendationService {
       dominantEmotion = recentChatLogs.get(0).getEmotion();
       return getAdsBasedOnEmotion(dominantEmotion);
     }
-
-//    // 특별한 날짜 확인
-//    LocalDate today = LocalDate.now();
-//    if (specialDatesRepository.existsByDate(today)) {
-//      return getDefaultAd();
-//    }
 
     // 지배적인 감정 기반 광고 추천
     List<AdRecommendation> ads = adRecommendationRepository.findAdsByEmotionOrderByRandom(dominantEmotion, PageRequest.of(0, 2));
