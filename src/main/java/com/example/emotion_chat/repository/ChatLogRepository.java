@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -15,7 +16,8 @@ public interface ChatLogRepository extends JpaRepository<ChatLog, Long> {
   @Query("SELECT c.dateEntered, c.emotion FROM ChatLog c WHERE c.user.id = :id")
   List<Object[]> findEmotionsByUserId(@Param("id") Long id);
 
+  ChatLog findByUserIdAndDateEntered(Long id, LocalDate dateEntered);
+  
   @Query("SELECT c FROM ChatLog c WHERE c.user.id = :id ORDER BY c.dateEntered DESC")
   List<ChatLog> findLatestEmotion(@Param("id") Long userId, Pageable pageable);
-
 }

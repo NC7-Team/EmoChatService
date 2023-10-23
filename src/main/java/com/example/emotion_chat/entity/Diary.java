@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,20 +17,10 @@ public class Diary {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long diaryId;
 
-  @ManyToOne
-  @JoinColumn(name = "id")
-  private User user;
-
-  @Column(nullable = false)
-  private LocalDate createdDate;
-
-  @Column(nullable = false)
-  private String emotion;
+  @OneToOne
+  @JoinColumn(name = "chatlog_id", nullable = false)
+  private ChatLog chatlog;
 
   @Lob
   private String content;
-
-  public enum Emotion {
-    HAPPY, NEUTRAL, ANGRY, SAD;
-  }
 }

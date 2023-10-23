@@ -40,6 +40,10 @@ public class User {
 
     private String providerId;
 
+    public User(long id) {
+        this.id=id;
+    }
+
     public Long getId() {
         return id;
     }

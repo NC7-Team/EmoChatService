@@ -3,7 +3,9 @@ package com.example.emotion_chat.controller;
 import com.example.emotion_chat.dto.ChatLogDTO;
 import com.example.emotion_chat.dto.FaceDTO;
 import com.example.emotion_chat.entity.ChatLog;
+import com.example.emotion_chat.entity.User;
 import com.example.emotion_chat.service.CFRFaceService;
+import com.example.emotion_chat.service.ChatLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -20,10 +23,11 @@ import java.util.ArrayList;
 public class FaceController {
 
   private final CFRFaceService faceService;
+  private final ChatLogService chatLogService;
 
   @PostMapping("/face")
   @ResponseBody
-  public String faceRecognition(@RequestParam("uploadFile") MultipartFile file, Model model) {
+  public String faceRecognition(@RequestParam("uploadFile") MultipartFile file, @RequestParam("id") long userId) {
     if (!file.isEmpty()) {
       try {
         ArrayList<FaceDTO> faceList = faceService.clovaFace(file);
@@ -32,33 +36,36 @@ public class FaceController {
           return "no_person";
         }
 
-        ChatLogDTO chatLogDTO = new ChatLogDTO();
+        ChatLog chatLog = new ChatLog();
+        chatLog.setUser(new User(userId));
+        chatLog.setDateEntered(LocalDate.now());
 
         String emotion = faceList.get(0).getEmotion();
         switch (emotion) {
           case "laugh":
           case "smile":
-            chatLogDTO.setEmotion(ChatLog.Emotion.HAPPY);
+            chatLog.setEmotion(ChatLog.Emotion.HAPPY);
             break;
           case "sad":
           case "fear":
-            chatLogDTO.setEmotion(ChatLog.Emotion.SAD);
+            chatLog.setEmotion(ChatLog.Emotion.SAD);
             break;
           case "angry":
           case "disgust":
           case "surprise":
-            chatLogDTO.setEmotion(ChatLog.Emotion.ANGRY);
+            chatLog.setEmotion(ChatLog.Emotion.ANGRY);
             break;
           case "neutral":
           case "talking":
-            chatLogDTO.setEmotion(ChatLog.Emotion.NEUTRAL);
+            chatLog.setEmotion(ChatLog.Emotion.NEUTRAL);
             break;
         }
 
-//        chatLogDTO.setUserId();
-        chatLogDTO.setDateEntered(LocalDate.now());
+        if (chatLogService.getEmotionsByUserIdAndDate(userId, LocalDate.now()) == null) {
+          chatLogService.create(chatLog);
+        }
 
-        return chatLogDTO.getEmotion().name();
+        return "HAPPY";
 
       } catch (Exception e) {
         return "error";

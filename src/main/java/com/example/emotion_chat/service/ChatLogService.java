@@ -27,5 +27,13 @@ public class ChatLogService {
     }
 
     return emotionsMap;
+
+  }
+  public void create(ChatLog chatLog) {
+    chatLogRepository.save(chatLog);
+  }
+
+  public ChatLog getEmotionsByUserIdAndDate(Long userID, LocalDate date) {
+    return chatLogRepository.findByUserIdAndDateEntered(userID, date);
   }
 }
