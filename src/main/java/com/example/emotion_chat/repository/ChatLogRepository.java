@@ -1,6 +1,7 @@
 package com.example.emotion_chat.repository;
 
 import com.example.emotion_chat.entity.ChatLog;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,4 +17,7 @@ public interface ChatLogRepository extends JpaRepository<ChatLog, Long> {
   List<Object[]> findEmotionsByUserId(@Param("id") Long id);
 
   ChatLog findByUserIdAndDateEntered(Long id, LocalDate dateEntered);
+  
+  @Query("SELECT c FROM ChatLog c WHERE c.user.id = :id ORDER BY c.dateEntered DESC")
+  List<ChatLog> findLatestEmotion(@Param("id") Long userId, Pageable pageable);
 }
