@@ -54,6 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
+            System.out.println("oAuth2UserInfo : " + oAuth2UserInfo);
             System.out.println("여기탐2 : 이메일 이미 존재");
                     user = userOptional.get();
             if (!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
