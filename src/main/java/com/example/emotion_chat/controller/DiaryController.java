@@ -30,18 +30,18 @@ public class DiaryController {
 
   @GetMapping("/{userId}/{date}")
   public ResponseEntity<Diary> getDiary(@PathVariable Long userId, @PathVariable String date) {
-    ChatLog chatLog = chatLogService.getEmotionsByUserIdAndDate(userId, LocalDate.parse(date, DateTimeFormatter.ISO_DATE));
-    System.out.println(chatLog.getChatlogId());
+    try {
+      ChatLog chatLog = chatLogService.getEmotionsByUserIdAndDate(userId, LocalDate.parse(date, DateTimeFormatter.ISO_DATE));
 
-    Diary temp = diaryService.getDiaryByChatlog(chatLog.getChatlogId());
+      Diary temp = diaryService.getDiaryByChatlog(chatLog.getChatlogId());
 
-    Diary diary = new Diary();
-    diary.setDiaryId(temp.getDiaryId());
-    diary.setContent(temp.getContent());
+      Diary diary = new Diary();
+      diary.setDiaryId(temp.getDiaryId());
+      diary.setContent(temp.getContent());
 
-    if (diary != null) {
       return new ResponseEntity<>(diary, HttpStatus.OK);
-    } else {
+
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
