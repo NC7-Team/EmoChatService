@@ -51,13 +51,8 @@ public class DiaryController {
           @RequestParam("userId") Long userId,
           @RequestParam("date") String date,
           @RequestParam("entry") String content) {
-    System.out.println("userId: " + userId);
-    System.out.println("date: " + date);
-    System.out.println("entry: " + content);
 
     ChatLog chatLog = chatLogService.getEmotionsByUserIdAndDate(userId, LocalDate.parse(date, DateTimeFormatter.ISO_DATE));
-
-    System.out.println(chatLog.getChatlogId());
 
     Diary diary = diaryService.getDiaryByChatlog(chatLog.getChatlogId());
 
@@ -71,16 +66,6 @@ public class DiaryController {
     Diary createdDiary = diaryService.createDiary(diary);
     return new ResponseEntity<>(createdDiary, HttpStatus.CREATED);
   }
-
-//  @PutMapping("/{diaryId}")
-//  public ResponseEntity<Diary> updateDiary(@PathVariable Long diaryId, @RequestBody Diary diary) {
-//    Diary updatedDiary = diaryService.updateDiary(diaryId, diary);
-//    if (updatedDiary != null) {
-//      return new ResponseEntity<>(updatedDiary, HttpStatus.OK);
-//    } else {
-//      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
-//  }
 
   @DeleteMapping("/{diaryId}")
   public ResponseEntity<Void> deleteDiary(@PathVariable Long diaryId) {
