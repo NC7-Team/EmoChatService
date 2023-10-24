@@ -18,6 +18,16 @@ public class EnterRoomService {
                           Long userId) {
 
         chatRoomService.addUserToChatRoom(roomId, userId);
+        String room;
+        if(roomId == 1L) {
+            room = "화남";
+        } else if (roomId == 2L) {
+            room = "슬픔";
+        } else if (roomId == 3L){
+            room = "기쁨";
+        } else {
+            room = "스파링";
+        }
 
         template.convertAndSend(
             "/subscription/chat/room/" + roomId,
@@ -25,7 +35,7 @@ public class EnterRoomService {
                 MessageIdGenerator.generateId(),
                 type,
                 "사용자 " + userId + " 님이 "
-                    + "채팅방 " + roomId + "에 입장하셨습니다."
+                    + room +"채팅방 " + roomId + "에 입장하셨습니다."
             )
         );
 
