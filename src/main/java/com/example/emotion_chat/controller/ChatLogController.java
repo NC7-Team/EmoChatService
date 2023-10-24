@@ -9,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/chatlogs")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://www.moodcanvas.site")
 public class ChatLogController {
 
   @Autowired

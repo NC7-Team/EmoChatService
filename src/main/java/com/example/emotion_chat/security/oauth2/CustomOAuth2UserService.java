@@ -42,16 +42,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         System.out.println("process : " + oAuth2User);
+        System.out.println("oAuth2UserInfo : " + oAuth2UserInfo);
 
         if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             System.out.println("여기탐1 : email isEmpty");
             System.out.println("email : " + oAuth2UserInfo.getEmail());
+            System.out.println("name : " + oAuth2UserInfo.getId());
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
+            System.out.println("oAuth2UserInfo : " + oAuth2UserInfo);
             System.out.println("여기탐2 : 이메일 이미 존재");
                     user = userOptional.get();
             if (!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -76,6 +79,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 //4번으로 이동
                 user = registerKakaoNewUser(oAuth2UserRequest, oAuth2UserInfo);
                 System.out.println("여기탐6 : 카카오 소셜 DB 새로 생성");
+                return UserPrincipal.create(user, oAuth2User.getAttributes());
+            } else if (oAuth2UserRequest.getClientRegistration().getRegistrationId().equalsIgnoreCase(AuthProvider.naver.toString())) {
+                //4번으로 이동
+                user = registerNaverNewUser(oAuth2UserRequest, oAuth2UserInfo);
+                System.out.println("여기탐6 : 네이버 소셜 DB 새로 생성");
+                return UserPrincipal.create(user, oAuth2User.getAttributes());
+            } else if (oAuth2UserRequest.getClientRegistration().getRegistrationId().equalsIgnoreCase(AuthProvider.naver.toString())) {
+                //4번으로 이동
+                user = registerGitHubNewUser(oAuth2UserRequest, oAuth2UserInfo);
+                System.out.println("여기탐6 : 깃허브 소셜 DB 새로 생성");
                 return UserPrincipal.create(user, oAuth2User.getAttributes());
             }
         }
@@ -103,6 +116,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // ID를 문자열로 형 변환하여 저장
         user.setProviderId(oAuth2UserInfo.getId().toString());
+        user.setName(oAuth2UserInfo.getName());
+        user.setEmail(oAuth2UserInfo.getEmail());
+        return userRepository.save(user);
+    }
+
+    // 네이버
+    private User registerNaverNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        // User 엔티티 생성
+        User user = new User();
+        System.out.println("여기탐4: 네이버 유저객체 생성");
+        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+
+        // ID를 문자열로 형 변환하여 저장
+        user.setProviderId(oAuth2UserInfo.getId().toString());
+        user.setName(oAuth2UserInfo.getName());
+        user.setEmail(oAuth2UserInfo.getEmail());
+        return userRepository.save(user);
+    }
+
+    // 깃허브
+    private User registerGitHubNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        User user = new User();
+        System.out.println("여기탐4 : 깃허브 유저객체 생성");
+        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        user.setProviderId(oAuth2UserInfo.getId());
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         return userRepository.save(user);
