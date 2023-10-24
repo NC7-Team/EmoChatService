@@ -85,6 +85,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 user = registerNaverNewUser(oAuth2UserRequest, oAuth2UserInfo);
                 System.out.println("여기탐6 : 네이버 소셜 DB 새로 생성");
                 return UserPrincipal.create(user, oAuth2User.getAttributes());
+            } else if (oAuth2UserRequest.getClientRegistration().getRegistrationId().equalsIgnoreCase(AuthProvider.naver.toString())) {
+                //4번으로 이동
+                user = registerGitHubNewUser(oAuth2UserRequest, oAuth2UserInfo);
+                System.out.println("여기탐6 : 깃허브 소셜 DB 새로 생성");
+                return UserPrincipal.create(user, oAuth2User.getAttributes());
             }
         }
         return oAuth2User;
@@ -125,6 +130,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // ID를 문자열로 형 변환하여 저장
         user.setProviderId(oAuth2UserInfo.getId().toString());
+        user.setName(oAuth2UserInfo.getName());
+        user.setEmail(oAuth2UserInfo.getEmail());
+        return userRepository.save(user);
+    }
+
+    // 깃허브
+    private User registerGitHubNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
+        User user = new User();
+        System.out.println("여기탐4 : 깃허브 유저객체 생성");
+        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        user.setProviderId(oAuth2UserInfo.getId());
         user.setName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
         return userRepository.save(user);
