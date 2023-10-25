@@ -31,11 +31,20 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
 
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+////        registry.addMapping("/api/**")
+//        registry.addMapping("/")
+//                .allowedOrigins(allowedOrigins)
+//                .allowedMethods("*")
+//                .allowedHeaders("*")
+//                .allowCredentials(true);
+//    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/api/**")
-        registry.addMapping("/")
-                .allowedOrigins(allowedOrigins)
+        registry.addMapping("/api/**")
+                .allowedOrigins("http://localhost:3000")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
